@@ -6,8 +6,7 @@ const getAllLeagues = () => {
   const allLeagues = ref([]);
   const currentLeague = ref();
 
-  // API URL using the date range
-  // static variables
+  // API URL
   const API_TOKEN =
     "bXSpCz0qhyhgfTs692uyNUmWzHPU4aXW3YzwERIvu30bOOp0DB7AzKtJ0lT3";
   const url = `https://soccer.sportmonks.com/api/v2.0/leagues?api_token=${API_TOKEN}`;

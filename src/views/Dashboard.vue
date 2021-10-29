@@ -1,36 +1,31 @@
 <template>
-  <div v-if="!currentLeague">
+  <div v-if="!getCurrentLeague">
     <Loader />
   </div>
   <div v-else>
-    <Header
-      :allLeagues="allLeagues"
-      :currentLeague="currentLeague"
-      :error="error"
-      @changeLeague="setLeague"
-    />
+    <Header />
     <div class="dashboard container">
       <LatestResults
-        v-if="currentLeague"
+        v-if="getCurrentLeague"
         class="element_1"
-        :league_id="currentLeague.id"
-        :round="currentLeague.current_round_id"
+        :league_id="getCurrentLeague.id"
+        :round="getCurrentLeague.current_round_id"
       />
       <LeagueTable
-        v-if="currentLeague"
+        v-if="getCurrentLeague"
         class="element_2"
-        :season_id="currentLeague.current_season_id"
+        :season_id="getCurrentLeague.current_season_id"
       />
       <UpcomingMatches
-        v-if="currentLeague"
+        v-if="getCurrentLeague"
         class="element_3"
-        :league_id="currentLeague.id"
-        :round="currentLeague.current_round_id"
+        :league_id="getCurrentLeague.id"
+        :round="getCurrentLeague.current_round_id"
       />
       <PlayerStatsGrid
-        v-if="currentLeague"
+        v-if="getCurrentLeague"
         class="element_4"
-        :season_id="currentLeague.current_season_id"
+        :season_id="getCurrentLeague.current_season_id"
       />
     </div>
   </div>
@@ -38,6 +33,7 @@
 
 <script>
 import { ref } from "vue";
+import { useStore, mapGetters } from "vuex";
 // components
 import Header from "../components/Header.vue";
 import LatestResults from "../components/LatestResults.vue";
@@ -45,8 +41,6 @@ import LeagueTable from "../components/LeagueTable.vue";
 import UpcomingMatches from "../components/UpcomingMatches.vue";
 import Loader from "../components/Loader.vue";
 import PlayerStatsGrid from "../components/PlayerStatsGrid.vue";
-// functions to call the API
-import getAllLeagues from "../composables/getAllLeagues";
 
 export default {
   components: {
@@ -58,29 +52,15 @@ export default {
     PlayerStatsGrid,
   },
   setup() {
-    const {
-      allLeagues,
-      error,
-      loadAllLeagues,
-      currentLeague,
-    } = getAllLeagues();
-    loadAllLeagues();
+    const store = useStore();
 
-    // set current league to the new league
-    const setLeague = (newLeagueId) => {
-      const selectedLeague = allLeagues.value.filter(
-        (league) => league.id === newLeagueId
-      );
-      currentLeague.value = selectedLeague[0];
-    };
+    const loadCurrentLeague = store.dispatch("loadCurrentLeague");
 
     return {
-      error,
-      allLeagues,
-      currentLeague,
-      setLeague,
+      loadCurrentLeague,
     };
   },
+  computed: mapGetters(["getCurrentLeague"]),
 };
 </script>
 

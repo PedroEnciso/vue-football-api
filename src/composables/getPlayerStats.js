@@ -26,7 +26,6 @@ const getPlayerStats = () => {
       topScorers.value = playerStats.value.goalscorers.data.slice(0, 5);
       topAssists.value = playerStats.value.assistscorers.data.slice(0, 5);
       mostCards.value = playerStats.value.cardscorers.data.slice(0, 5);
-      console.log(playerStats.value);
     } catch (err) {
       error.value = err.message;
       console.log(`Error message: ${error.value}`);
