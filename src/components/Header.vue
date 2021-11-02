@@ -1,6 +1,9 @@
 <template>
   <div class="header container">
-    <h1>{{ currentLeague.name }}</h1>
+    <div class="header__league_info">
+      <img :src="currentLeague.logo_path" :alt="currentLeague.name" />
+      <h1>{{ currentLeague.name }}</h1>
+    </div>
     <form>
       <select
         v-model="selectedLeagueID"
@@ -35,6 +38,8 @@ export default {
     const currentLeague = computed(() => store.getters.getCurrentLeague);
     const allLeagues = computed(() => store.getters.getAllLeagues);
 
+    console.log(currentLeague.value);
+
     const selectNewLeague = () => {
       // do nothing if the placeholder is selected
       if (selectedLeagueID.value === "") return;
@@ -55,7 +60,19 @@ export default {
   padding-bottom: 1rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 2px solid white;
+}
+
+.header__league_info {
+  display: flex;
+  align-items: flex-end;
+}
+
+.header__league_info img {
+  height: 45px;
+  width: 45px;
+  margin-right: 10px;
 }
 
 .header select {
