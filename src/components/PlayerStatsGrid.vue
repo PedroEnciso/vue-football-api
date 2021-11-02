@@ -21,15 +21,18 @@
   </div>
 </template>
 <script>
-import { ref, watchEffect } from "vue";
+import { computed, watchEffect } from "vue";
+import { useStore } from "vuex";
 import PlayerStats from "./PlayerStats.vue";
 import getPlayerStats from "../composables/getPlayerStats";
 export default {
-  props: ["season_id"],
   components: {
     PlayerStats,
   },
-  setup(props) {
+  setup() {
+    const store = useStore();
+    const currentLeague = computed(() => store.getters.getCurrentLeague);
+
     const {
       playerStats,
       error,
@@ -39,7 +42,7 @@ export default {
       mostCards,
     } = getPlayerStats();
     watchEffect(() => {
-      loadPlayerStats(props.season_id);
+      loadPlayerStats(currentLeague.value.current_season_id);
     });
 
     return { playerStats, error, topScorers, topAssists, mostCards };

@@ -3,8 +3,8 @@ import axios from "axios";
 
 export default createStore({
   state: {
-    currentLeague: {},
-    allLeagues: [],
+    currentLeague: null,
+    allLeagues: null,
   },
   getters: {
     getCurrentLeague: (state) => state.currentLeague,
@@ -25,6 +25,7 @@ export default createStore({
       const filteredLeagues = response.data.data.filter(
         (league) => !league.name.includes("Play-")
       );
+      console.log(filteredLeagues);
       commit("setAllLeagues", filteredLeagues);
     },
   },

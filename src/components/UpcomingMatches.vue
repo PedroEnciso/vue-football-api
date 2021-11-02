@@ -14,7 +14,8 @@
   </div>
 </template>
 <script>
-import { ref, watchEffect } from "vue";
+import { computed, watchEffect } from "vue";
+import { useStore } from "vuex";
 import UpcomingMatch from "./UpcomingMatch.vue";
 import getUpcomingMatches from "../composables/getUpcomingMatches";
 
@@ -22,15 +23,9 @@ export default {
   components: {
     UpcomingMatch,
   },
-  props: ["league_id", "round"],
-  setup(props) {
-    const totalMatches = ref([]);
-
-    for (let i = 0; i < 6; i++) {
-      {
-        totalMatches.value.push(i);
-      }
-    }
+  setup() {
+    const store = useStore();
+    const currentLeague = computed(() => store.getters.getCurrentLeague);
 
     const {
       upcomingMatches,
@@ -39,10 +34,13 @@ export default {
     } = getUpcomingMatches();
 
     watchEffect(() => {
-      loadUpcomingMatches(props.league_id, props.round);
+      loadUpcomingMatches(
+        currentLeague.value.id,
+        currentLeague.value.current_round_id
+      );
     });
 
-    return { totalMatches, upcomingMatches, error };
+    return { upcomingMatches, error };
   },
 };
 </script>

@@ -1,39 +1,21 @@
 <template>
-  <div v-if="!getCurrentLeague">
+  <div v-if="!allLeagues">
     <Loader />
   </div>
   <div v-else>
     <Header />
     <div class="dashboard container">
-      <LatestResults
-        v-if="getCurrentLeague"
-        class="element_1"
-        :league_id="getCurrentLeague.id"
-        :round="getCurrentLeague.current_round_id"
-      />
-      <LeagueTable
-        v-if="getCurrentLeague"
-        class="element_2"
-        :season_id="getCurrentLeague.current_season_id"
-      />
-      <UpcomingMatches
-        v-if="getCurrentLeague"
-        class="element_3"
-        :league_id="getCurrentLeague.id"
-        :round="getCurrentLeague.current_round_id"
-      />
-      <PlayerStatsGrid
-        v-if="getCurrentLeague"
-        class="element_4"
-        :season_id="getCurrentLeague.current_season_id"
-      />
+      <LatestResults class="element_1" />
+      <LeagueTable class="element_2" />
+      <UpcomingMatches class="element_3" />
+      <PlayerStatsGrid class="element_4" />
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
-import { useStore, mapGetters } from "vuex";
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
 // components
 import Header from "../components/Header.vue";
 import LatestResults from "../components/LatestResults.vue";
@@ -53,14 +35,17 @@ export default {
   },
   setup() {
     const store = useStore();
+    const currentLeague = computed(() => store.getters.getCurrentLeague);
+    const allLeagues = computed(() => store.getters.getAllLeagues);
 
     const loadCurrentLeague = store.dispatch("loadCurrentLeague");
 
     return {
       loadCurrentLeague,
+      currentLeague,
+      allLeagues,
     };
   },
-  computed: mapGetters(["getCurrentLeague"]),
 };
 </script>
 

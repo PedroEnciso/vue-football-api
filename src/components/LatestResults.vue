@@ -22,13 +22,13 @@
 </template>
 <script>
 import Match from "./Match.vue";
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect, computed } from "vue";
+import { useStore } from "vuex";
 import getLatestResults from "../composables/getLatestResults";
 
 export default {
   components: { Match },
-  props: ["league_id", "round"],
-  setup(props) {
+  setup() {
     ///// SLIDER FUNCTIONALITY /////
     const slider = ref(null);
     const container = ref(null);
@@ -70,13 +70,18 @@ export default {
       slider.value.style.transform = `translateX(-${slideAmount}px)`;
     };
 
+    const store = useStore();
+    const currentLeague = computed(() => store.getters.getCurrentLeague);
+
     ///// FETCH RESULT DATA /////
     const { latestResults, error, loadLatestResults } = getLatestResults();
-    // loadLatestResults(props.league_id);
 
     // call the API anytime the league_id is changed
     watchEffect(() => {
-      loadLatestResults(props.league_id, props.round);
+      loadLatestResults(
+        currentLeague.value.id,
+        currentLeague.value.current_round_id
+      );
     });
 
     return {

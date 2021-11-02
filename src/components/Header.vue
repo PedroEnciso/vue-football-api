@@ -1,10 +1,9 @@
 <template>
   <div class="header container">
-    <h1 v-if="error">Sorry, there was an error: {{ error }}</h1>
-    <h1 v-else>{{ currentLeague.name }}</h1>
+    <h1>{{ currentLeague.name }}</h1>
     <form>
       <select
-        v-model="selectedLeague"
+        v-model="selectedLeagueID"
         class="box-shadow"
         autocomplete="off"
         placeholder="Select a league"
@@ -26,21 +25,26 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { mapGetters, useStore } from "vuex";
 export default {
-  props: ["allLeagues", "error", "currentLeague"],
-  emits: ["changeLeague"],
-  setup(props, context) {
-    const selectedLeague = ref("");
+  setup() {
+    const selectedLeagueID = ref("");
+    const store = useStore();
+
+    const currentLeague = computed(() => store.getters.getCurrentLeague);
+    const allLeagues = computed(() => store.getters.getAllLeagues);
 
     const selectNewLeague = () => {
       // do nothing if the placeholder is selected
-      if (selectedLeague.value === "") return;
-      console.log(`Header says: ${selectedLeague.value}`);
-      context.emit("changeLeague", selectedLeague.value);
+      if (selectedLeagueID.value === "") return;
+      const selectedLeague = allLeagues.value.filter(
+        (league) => league.id === selectedLeagueID.value
+      );
+      store.commit("setCurrentLeague", selectedLeague[0]);
     };
 
-    return { selectedLeague, selectNewLeague };
+    return { selectedLeagueID, selectNewLeague, currentLeague, allLeagues };
   },
 };
 </script>

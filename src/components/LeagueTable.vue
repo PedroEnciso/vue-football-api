@@ -14,19 +14,22 @@
 <script>
 import TableRow from "./TableRow.vue";
 import getLeagueStandings from "../composables/getLeagueStandings";
-import { ref, watchEffect } from "vue";
+import { watchEffect, computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
   components: { TableRow },
-  props: ["season_id"],
-  setup(props) {
+  setup() {
+    const store = useStore();
+    const currentLeague = computed(() => store.getters.getCurrentLeague);
+
     const { standings, error, loadLeagueStandings } = getLeagueStandings();
 
     watchEffect(() => {
-      loadLeagueStandings(props.season_id);
+      loadLeagueStandings(currentLeague.value.current_season_id);
     });
 
-    return { standings, error };
+    return { standings, error, currentLeague };
   },
 };
 </script>

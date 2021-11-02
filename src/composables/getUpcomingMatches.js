@@ -20,9 +20,6 @@ const getUpcomingMatches = () => {
   const url = `https://soccer.sportmonks.com/api/v2.0/fixtures/between/${startDate}/${endDate}?api_token=${API_TOKEN}&include=localTeam,visitorTeam&leagues=`;
 
   const loadUpcomingMatches = async (league_id, round) => {
-    // convert round from the current round to the next round
-    const nextRound = round + 1;
-    //nextRound = nextRound.toString();
     try {
       let data = await fetch(url + league_id);
 
@@ -33,9 +30,9 @@ const getUpcomingMatches = () => {
       let parsedData = await data.json();
       upcomingMatches.value = parsedData.data;
 
-      // filter out all fixtures that do not have the next round ID
+      // filter out all fixtures that have the current round ID
       upcomingMatches.value = upcomingMatches.value.filter(
-        (match) => match.round_id === nextRound
+        (match) => match.round_id !== round
       );
     } catch (err) {
       error.value = err.message;
