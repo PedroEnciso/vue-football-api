@@ -31,13 +31,8 @@ nav ul {
 }
 
 nav ul li {
-  margin-right: 5rem;
+  margin-right: 3.5rem;
   cursor: pointer;
-  transition: border-bottom 0.2s;
-}
-
-nav ul li:hover {
-  border-bottom: 4px solid var(--light-accent-color);
 }
 
 .selected {
@@ -52,8 +47,8 @@ nav ul li:hover {
 
 hr {
   border: none;
-  height: 2px;
-  margin-top: -2px;
+  height: 3px;
+  margin-top: -3px;
   background-color: var(--light-background-color);
 }
 </style>
