@@ -47,34 +47,6 @@ export default {
 </script>
 
 <style>
-/** Utility classes
-*/
-
-.purple {
-  color: rgb(189, 97, 212);
-}
-
-.box-shadow {
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
-}
-
-.home_component {
-  padding: 0.75rem 1rem;
-  background-color: white;
-  border-radius: 0.5rem;
-  width: 100%;
-}
-
-/** Main container style
-*/
-.container {
-  max-width: 1100px;
-  width: 90%;
-  margin: 0 auto;
-}
-
-/** App styles
-*/
 .box {
   height: 100%;
   display: flex;
@@ -85,7 +57,6 @@ export default {
 
 .dashboard {
   height: 100%;
-  padding: 1.25rem 0rem;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto auto 1fr;

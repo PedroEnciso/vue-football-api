@@ -36,12 +36,21 @@ h1 {
   text-transform: uppercase;
 }
 
-h2,
-h3,
 li {
   font-family: "Inter", sans-serif;
   font-size: 1.1rem;
+  font-weight: 500;
   color: var(--regular-text-color);
+  text-transform: uppercase;
+}
+
+h2,
+h3 {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--regular-text-color);
+  text-transform: uppercase;
 }
 
 p {
@@ -54,6 +63,7 @@ p {
 /**** ELEMENTS ****/
 button {
   padding: 0.5rem 0.75rem;
+  color: var(--accent-color);
   background-color: transparent;
   border-radius: 5px;
   border: none;
@@ -80,6 +90,5 @@ li {
   font-family: "Inter", sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--accent-color);
   text-transform: uppercase;
 }

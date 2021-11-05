@@ -1,5 +1,5 @@
 <template>
-  <div class="latest_results box-shadow home_component">
+  <div class="latest_results component-spacer">
     <div class="title_line">
       <h2>Latest Results</h2>
       <div class="controls">
@@ -97,39 +97,32 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .latest_results {
   width: 100%;
-  height: 170px;
+  height: fit-content;
   overflow: hidden;
 }
 
-.latest_results .title_line {
+.title_line {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1.25rem;
 }
 
-.latest_results .title_line .slider_button {
-  padding: 0.25rem 0.5rem;
-  border: none;
-  border-radius: 1rem;
-  background-color: white;
-  color: #a5a5a5;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 900;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-  transition: box-shadow 0.4s;
+.slider_button {
+  font-size: 1.3rem;
+  font-weight: 700;
+  border-radius: 90%;
 }
 
-.latest_results .title_line .slider_button:active {
-  box-shadow: none;
+.slider_button:hover {
+  background-color: transparent;
 }
 
-.latest_results .title_line .switch_left {
-  margin-right: 20px;
+.switch_left {
+  margin-right: 25px;
 }
 
 .carousel_container {

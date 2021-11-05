@@ -6,9 +6,9 @@
         :src="match.localTeam.data.logo_path"
         :alt="match.localTeam.data.name"
       />
-      <h3 class="match_team_name">{{ match.localTeam.data.name }}</h3>
+      <p class="match_team_name">{{ match.localTeam.data.name }}</p>
     </div>
-    <div class="match_score">
+    <div class="match_score ">
       <p>{{ match.scores.ft_score }}</p>
     </div>
     <div class="match_team">
@@ -17,7 +17,7 @@
         :src="match.visitorTeam.data.logo_path"
         :alt="match.visitorTeam.data.name"
       />
-      <h3 class="match_team_name">{{ match.visitorTeam.data.name }}</h3>
+      <p class="match_team_name">{{ match.visitorTeam.data.name }}</p>
     </div>
   </div>
 </template>
@@ -28,15 +28,15 @@ export default {
 </script>
 <style>
 .match {
-  height: 100px;
-  width: 180px;
-  border-radius: 0.5rem;
-  border: 1px solid #d1cdcd;
+  height: 115px;
+  width: 220px;
+  background-color: var(--light-background-color);
+  border-radius: 5px;
   margin-right: 20px;
-  padding: 0px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 10px 15px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  place-items: center;
   position: relative;
 }
 
@@ -46,6 +46,10 @@ export default {
   align-items: center;
 }
 
+.match_team p {
+  color: var(--dark-text-color);
+}
+
 .match_club_crest {
   height: 40px;
   width: 40px;
@@ -53,15 +57,13 @@ export default {
 }
 
 .match_team_name {
-  font-size: 0.8rem;
-  font-weight: 400;
+  text-align: center;
 }
 
 .match_score p {
   white-space: nowrap;
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 0px 3px;
+  text-align: center;
+  font-weight: 700;
 }
 
 .match_date {
