@@ -4,6 +4,7 @@
   </div>
   <div v-else>
     <Header />
+    <Nav />
     <div class="dashboard container">
       <LatestResults class="element_1" />
       <LeagueTable class="element_2" />
@@ -23,6 +24,7 @@ import LeagueTable from "../components/LeagueTable.vue";
 import UpcomingMatches from "../components/UpcomingMatches.vue";
 import Loader from "../components/Loader.vue";
 import PlayerStatsGrid from "../components/PlayerStatsGrid.vue";
+import Nav from "../components/Nav.vue";
 
 export default {
   components: {
@@ -32,6 +34,7 @@ export default {
     Header,
     Loader,
     PlayerStatsGrid,
+    Nav,
   },
   setup() {
     const store = useStore();

@@ -8,6 +8,7 @@
   --light-text-color: #707c80;
   --accent-color: #a146e8;
   --light-accent-color: #e2bcff;
+  --light-background-color: #efefef;
 }
 
 body {
@@ -50,5 +51,18 @@ button:hover {
 
 li {
   padding-bottom: 1.3rem;
-  border-bottom: 2px solid transparent;
+  border-bottom: 4px solid transparent;
+  text-transform: uppercase;
+}
+
+/* reset styles*/
+a {
+  font-family: inherit;
+  text-decoration: none;
+  color: inherit;
+}
+
+/**** UTILITIES ****/
+.component-spacer {
+  margin-top: 1.5rem;
 }
