@@ -1,5 +1,5 @@
 <template>
-  <div class="header container">
+  <div v-if="allLeagues" class="header">
     <div class="header__league_info">
       <img :src="currentLeague.logo_path" :alt="currentLeague.name" />
       <h1>{{ currentLeague.name }}</h1>
@@ -7,7 +7,6 @@
     <form>
       <select
         v-model="selectedLeagueID"
-        class="box-shadow"
         autocomplete="off"
         placeholder="Select a league"
       >
@@ -20,7 +19,7 @@
           {{ league.name }}
         </option>
       </select>
-      <button @click="selectNewLeague" class="box-shadow" type="button">
+      <button @click="selectNewLeague" class="bold-text" type="button">
         Go
       </button>
     </form>
@@ -54,51 +53,33 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .header {
-  padding-top: 2rem;
+  padding-top: 3rem;
   padding-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid white;
 }
 
 .header__league_info {
   display: flex;
   align-items: flex-end;
+  justify-content: center;
 }
 
 .header__league_info img {
   height: 45px;
   width: 45px;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 .header select {
   height: fit-content;
   padding: 0.5rem;
   border: none;
-  border-radius: 0.5rem;
-  width: 150px;
-}
-
-.header button {
-  margin-left: 20px;
-  padding: 0.5rem 0.4rem;
-  border: none;
-  border-radius: 0.75rem;
-  background-color: rgb(189, 97, 212);
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.4s;
-}
-
-.header button:hover {
-  background-color: rgb(227, 117, 255);
-}
-
-.header button:active {
-  box-shadow: none;
+  border-radius: 5px;
+  width: 175px;
+  background-color: var(--light-background-color);
 }
 </style>

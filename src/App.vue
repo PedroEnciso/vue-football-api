@@ -19,10 +19,10 @@ export default {
 
 <style scoped>
 .app-container {
-  max-width: 1100px;
+  max-width: 1000px;
   width: 90%;
   margin: 0 auto;
-  padding: 0rem 4rem;
+  padding: 0rem 3rem;
   background-color: #fff;
 }
 </style>

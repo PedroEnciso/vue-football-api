@@ -7,7 +7,7 @@
   --regular-text-color: #373d3f;
   --light-text-color: #707c80;
   --accent-color: #a146e8;
-  --light-accent-color: #e2bcff;
+  --light-accent-color: #eeddfa;
   --light-background-color: #efefef;
 }
 
@@ -31,7 +31,7 @@ a {
 /**** TYPOGRAPHY ****/
 h1 {
   font-family: "Fugaz One", cursive;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: var(--dark-text-color);
   text-transform: uppercase;
 }
@@ -40,7 +40,7 @@ h2,
 h3,
 li {
   font-family: "Inter", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--regular-text-color);
 }
 
@@ -52,11 +52,12 @@ p {
 
 /**** ELEMENTS ****/
 button {
-  padding: 0.25rem 0.75rem;
+  padding: 0.5rem 0.75rem;
   background-color: transparent;
   border-radius: 5px;
+  border: none;
   cursor: pointer;
-  transition: background-color 0.4s;
+  transition: background-color 0.2s;
 }
 
 button:hover {
@@ -71,5 +72,13 @@ li {
 
 /**** UTILITIES ****/
 .component-spacer {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
+}
+
+.bold-text {
+  font-family: "Inter", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  text-transform: uppercase;
 }
