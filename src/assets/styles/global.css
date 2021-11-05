@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap");
+
+/**** VARIABLES ****/
+:root {
+  --dark-text-color: #131516;
+  --regular-text-color: #373d3f;
+  --light-text-color: #707c80;
+  --accent-color: #a146e8;
+  --light-accent-color: #e2bcff;
+}
+
+body {
+  background-color: #f9f9f9;
+}
+
+/**** TYPOGRAPHY ****/
+h1 {
+  font-family: "Fugaz One", cursive;
+  font-size: 1.4rem;
+  color: var(--dark-text-color);
+  text-transform: uppercase;
+}
+
+h2,
+h3,
+li {
+  font-family: "Inter", sans-serif;
+  font-size: 1.2rem;
+  color: var(--regular-text-color);
+}
+
+p {
+  color: var(--regular-text-color);
+  font-size: 0.95rem;
+}
+
+/**** ELEMENTS ****/
+button {
+  padding: 0.25rem 0.75rem;
+  background-color: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+button:hover {
+  background-color: var(--light-accent-color);
+}
+
+li {
+  padding-bottom: 1.3rem;
+  border-bottom: 2px solid transparent;
+}
