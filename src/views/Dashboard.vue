@@ -3,8 +3,6 @@
     <Loader />
   </div>
   <div v-else>
-    <Header />
-    <Nav />
     <div class="dashboard container">
       <LatestResults class="element_1" />
       <LeagueTable class="element_2" />
@@ -18,23 +16,19 @@
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
 // components
-import Header from "../components/Header.vue";
 import LatestResults from "../components/LatestResults.vue";
 import LeagueTable from "../components/LeagueTable.vue";
 import UpcomingMatches from "../components/UpcomingMatches.vue";
 import Loader from "../components/Loader.vue";
 import PlayerStatsGrid from "../components/PlayerStatsGrid.vue";
-import Nav from "../components/Nav.vue";
 
 export default {
   components: {
     LatestResults,
     LeagueTable,
     UpcomingMatches,
-    Header,
     Loader,
     PlayerStatsGrid,
-    Nav,
   },
   setup() {
     const store = useStore();
@@ -53,35 +47,6 @@ export default {
 </script>
 
 <style>
-/** Global styles
-*/
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: #f2f2f2;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  color: #2c3e50;
-}
-
-h1 {
-  font-size: 1.5rem;
-  font-weight: 900;
-}
-
-h2 {
-  font-size: 0.9rem;
-  font-weight: 900;
-}
-
-p {
-  font-size: 0.9rem;
-  font-weight: 400;
-}
-
 /** Utility classes
 */
 

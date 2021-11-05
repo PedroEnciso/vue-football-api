@@ -11,8 +11,21 @@
   --light-background-color: #efefef;
 }
 
+/**** RESETS ****/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  background-color: #f9f9f9;
+  background-color: var(--light-background-color);
+}
+
+a {
+  font-family: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 /**** TYPOGRAPHY ****/
@@ -32,6 +45,7 @@ li {
 }
 
 p {
+  font-family: "Inter", sans-serif;
   color: var(--regular-text-color);
   font-size: 0.95rem;
 }
@@ -53,13 +67,6 @@ li {
   padding-bottom: 1.3rem;
   border-bottom: 4px solid transparent;
   text-transform: uppercase;
-}
-
-/* reset styles*/
-a {
-  font-family: inherit;
-  text-decoration: none;
-  color: inherit;
 }
 
 /**** UTILITIES ****/
