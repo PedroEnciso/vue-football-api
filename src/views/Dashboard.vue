@@ -6,8 +6,10 @@
     <div class="dashboard container">
       <LatestResults class="element_1" />
       <LeagueTable class="element_2" />
+      <!--
       <UpcomingMatches class="element_3" />
       <PlayerStatsGrid class="element_4" />
+      -->
     </div>
   </div>
 </template>
@@ -60,7 +62,8 @@ export default {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto auto 1fr;
-  grid-gap: 2rem;
+  grid-column-gap: 2rem;
+  grid-row-gap: 3rem;
 }
 
 @media only screen and (min-width: 700px) {

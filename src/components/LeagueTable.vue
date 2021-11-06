@@ -1,14 +1,17 @@
 <template>
-  <div class="table box-shadow">
-    <TableRow position="0" />
-    <h3 v-if="!standings">Loading table data...</h3>
-    <TableRow
-      v-else
-      v-for="team in standings"
-      :key="team.team_id"
-      :position="team.position"
-      :team="team"
-    />
+  <div>
+    <h2>League Table</h2>
+    <div class="table box-shadow">
+      <TableRow position="0" />
+      <h3 v-if="!standings">Loading table data...</h3>
+      <TableRow
+        v-else
+        v-for="team in standings"
+        :key="team.team_id"
+        :position="team.position"
+        :team="team"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -35,14 +38,13 @@ export default {
 </script>
 <style>
 .table {
-  border-radius: 0.5rem;
-  overflow: hidden;
   height: fit-content;
+  margin-top: 1.5rem;
 }
 
 hr {
   border: none;
   height: 2px;
-  background-color: #f2f2f2;
+  background-color: #fff;
 }
 </style>

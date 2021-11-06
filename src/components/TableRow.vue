@@ -1,14 +1,14 @@
 <template>
   <div v-if="position === '0'" class="table_row header_row">
     <p></p>
-    <h3 class="h3_team">Team</h3>
-    <h3>Pl</h3>
-    <h3>W</h3>
-    <h3>D</h3>
-    <h3>L</h3>
-    <h3>+/-</h3>
-    <h3>GD</h3>
-    <h3>PTS</h3>
+    <p class="position bold-text table_header">Team</p>
+    <p class="bold-text table_header">Pl</p>
+    <p class="bold-text table_header">W</p>
+    <p class="bold-text table_header">D</p>
+    <p class="bold-text table_header">L</p>
+    <p class="bold-text table_header">+ / -</p>
+    <p class="bold-text table_header">GD</p>
+    <p class="bold-text table_header">PTS</p>
   </div>
   <div v-else class="table_row">
     <p class="position">{{ position }}</p>
@@ -20,13 +20,13 @@
       class="team"
     >
       <img :src="team.team_logo" :alt="team.team_name" />
-      <h3>{{ team.team_name }}</h3>
+      <p class="team_name">{{ team.team_name }}</p>
     </router-link>
     <p>{{ team.overall.games_played }}</p>
     <p>{{ team.overall.won }}</p>
     <p>{{ team.overall.draw }}</p>
     <p>{{ team.overall.lost }}</p>
-    <p>{{ team.overall.goals_scored }}-{{ team.overall.goals_against }}</p>
+    <p>{{ team.overall.goals_scored }} / {{ team.overall.goals_against }}</p>
     <p>{{ team.overall.goal_diff }}</p>
     <p>{{ team.points }}</p>
   </div>
@@ -37,36 +37,34 @@ export default {
   props: ["position", "team"],
 };
 </script>
-<style>
+<style scoped>
 .table_row {
   width: 100%;
-  padding: 0.5rem 0.75rem;
+  padding: 0.75rem 0.75rem;
   display: grid;
-  grid-template-columns: 1fr 6fr repeat(7, 1fr);
+  grid-template-columns: 1fr 4fr repeat(7, 1fr);
   align-items: center;
-  background-color: white;
   justify-items: center;
+  background-color: var(--light-background-color);
+  border-radius: 5px;
+  transition: background-color 0.4s;
 }
 
-.header_row {
-  color: #a5a5a5;
+.table_row:hover {
+  background-color: #fff;
 }
 
+/* Table header styles */
+.table_header {
+  color: var(--light-text-color);
+}
+
+.header_row:hover {
+  background-color: var(--light-background-color);
+}
+
+/* Table body styles */
 .position {
-  justify-self: start;
-}
-
-.table_row a {
-  text-decoration: none;
-}
-
-.table_row h3 {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #2c3e50;
-}
-
-.h3_team {
   justify-self: start;
 }
 
@@ -80,8 +78,7 @@ export default {
   margin-right: 0.6rem;
 }
 
-.table_row p {
-  font-size: 0.8rem;
+.team_name {
   font-weight: 400;
 }
 </style>
