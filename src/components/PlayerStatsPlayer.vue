@@ -1,28 +1,27 @@
 <template>
-  <div class="player_stats_player_container" :class="oddEven">
-    <div class="player_stats_player_information">
-      <p class="player_stats_player_name">
-        {{ player.player.data.display_name }}
-      </p>
-      <div class="player_stats_player_team">
-        <img :src="player.team.data.logo_path" :alt="player.team.data.name" />
-        <p>{{ player.team.data.name }}</p>
+  <div class="player_container">
+    <div class="stats_player_container">
+      <div class="stats_player_stat_container_flex">
+        <img
+          :class="index === 0 ? 'stats_player_image_top' : 'stats_player_image'"
+          :src="player.player.data.image_path"
+          :alt="player.player.data.display_name"
+        />
       </div>
-      <p class="player_stats_player_stat" v-if="statType === 'goals'">
+      <div class="stats_player_information">
+        <p class="stats_player_name">
+          {{ player.player.data.display_name }}
+        </p>
+        <div v-if="index === 0" class="stats_player_team">
+          <img :src="player.team.data.logo_path" :alt="player.team.data.name" />
+          <p>{{ player.team.data.name }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="player_stats_player_stat">
+      <p :class="index === 0 ? 'top_stat' : 'stat'">
         {{ player.goals }}
       </p>
-      <p class="player_stats_player_stat" v-if="statType === 'assists'">
-        {{ player.assists }}
-      </p>
-      <p class="player_stats_player_stat" v-if="statType === 'cards'">
-        {{ totalCards }}
-      </p>
-    </div>
-    <div class="player_stats_player_image">
-      <img
-        :src="player.player.data.image_path"
-        :alt="player.player.data.display_name"
-      />
     </div>
   </div>
 </template>
@@ -30,76 +29,73 @@
 import { computed } from "vue";
 
 export default {
-  props: ["player", "statType", "playerStatsList"],
-  setup(props) {
-    const oddEven = computed(() => {
-      const remainder = props.playerStatsList.indexOf(props.player) % 2;
-      if (remainder === 1) return "odd";
-      return "even";
-    });
-
-    const totalCards = computed(() => {
-      if (props.statType === "cards") {
-        return props.player.redcards + props.player.yellowcards;
-      }
-      return;
-    });
-
-    return { oddEven, totalCards };
-  },
+  props: ["player", "playerStatsList", "index"],
 };
 </script>
-<style>
-.odd {
-  background-color: #ebebeb;
-}
-
-.player_stats_player_container {
+<style scoped>
+.player_container {
   display: flex;
   justify-content: space-between;
-  padding: 10px 1rem 0rem 1rem;
-  margin-left: -1rem;
-  margin-right: -1rem;
+  background: var(--light-background-color);
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  margin-bottom: 0.25rem;
 }
 
-.player_stats_player_information {
-  line-height: 1.5rem;
-}
-
-.player_stats_player_name {
-  font-size: 1rem;
-  font-weight: 300;
-}
-
-.player_stats_player_team {
+.stats_player_container {
   display: flex;
   align-items: center;
 }
 
-.player_stats_player_team img {
+.stats_player_stat_container_flex {
+  display: flex;
+  align-items: center;
+}
+
+.stats_player_image_top {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.stats_player_image {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+}
+
+.stats_player_information {
+  line-height: 1.5rem;
+}
+
+.stats_player_name {
+  font-weight: 500;
+}
+
+.stats_player_team {
+  display: flex;
+  align-items: center;
+}
+
+.stats_player_team img {
   height: 20px;
   width: 20px;
   margin-right: 5px;
 }
 
-.player_stats_player_team p {
-  font-size: 0.9rem;
-  font-weight: 300;
-}
-
 .player_stats_player_stat {
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1.75rem;
-}
-
-.player_stats_player_image {
   align-self: end;
 }
 
-.player_stats_player_image img {
-  width: 65px;
-  height: 65px;
-  margin-bottom: -6px;
+.player_stats_player_stat p {
+  font-weight: 500;
+}
+
+.top_stat {
+  font-size: 2rem;
+}
+
+.stat {
+  font-size: 1.55rem;
 }
 </style>

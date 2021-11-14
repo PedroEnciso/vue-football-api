@@ -2,11 +2,11 @@
   <div class="home_component box-shadow player_stats_component">
     <h2 class="player_stats_title">{{ title }}</h2>
     <PlayerStatsPlayer
-      v-for="player in playerStatsList"
+      v-for="(player, index) in playerStatsList"
       :player="player"
       :key="player.player_id"
-      :statType="statType"
       :playerStatsList="playerStatsList"
+      :index="index"
     />
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
 </script>
 <style>
 .player_stats_title {
-  margin-bottom: 2px;
+  margin-bottom: 1.5rem;
 }
 
 .player_stats_component {

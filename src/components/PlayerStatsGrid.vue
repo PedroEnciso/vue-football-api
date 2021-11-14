@@ -6,18 +6,6 @@
       statType="goals"
       :playerStatsList="topScorers"
     />
-    <PlayerStats
-      v-if="playerStats"
-      title="Top Assits"
-      statType="assists"
-      :playerStatsList="topAssists"
-    />
-    <PlayerStats
-      v-if="playerStats"
-      title="Most Cards"
-      statType="cards"
-      :playerStatsList="mostCards"
-    />
   </div>
 </template>
 <script>
@@ -52,20 +40,5 @@ export default {
 <style>
 .player_stats_grid {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 2rem;
-}
-
-@media only screen and (min-width: 700px) {
-  .player_stats_grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media only screen and (min-width: 900px) {
-  .player_stats_grid {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
 }
 </style>

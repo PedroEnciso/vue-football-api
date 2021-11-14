@@ -25,7 +25,6 @@ export default {
   min-height: 100vh;
   width: 90%;
   margin: 0 auto;
-  padding: 0rem 3rem;
   background-color: #fff;
 }
 </style>
