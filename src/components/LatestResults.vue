@@ -4,7 +4,7 @@
       <h2>Latest Results</h2>
       <div class="controls">
         <button @click="scrollLeft" class="switch_left slider_button">
-          &lt
+          &lt;
         </button>
         <button @click="scrollRight" class="switch_right slider_button">
           >
