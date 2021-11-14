@@ -92,3 +92,15 @@ li {
   font-weight: 700;
   text-transform: uppercase;
 }
+
+.page-link {
+  font-family: "Inter", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-color);
+}
+
+.link-container {
+  margin-top: 1rem;
+}

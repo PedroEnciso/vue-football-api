@@ -18,6 +18,9 @@
         <Match v-for="match in latestResults" :key="match.id" :match="match" />
       </div>
     </div>
+    <div class="link-container">
+      <router-link to="/matches" class="page-link">See all matches</router-link>
+    </div>
   </div>
 </template>
 <script>

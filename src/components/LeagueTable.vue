@@ -12,6 +12,9 @@
         :team="team"
       />
     </div>
+    <div class="link-container">
+      <router-link to="/table" class="page-link">See full table</router-link>
+    </div>
   </div>
 </template>
 <script>

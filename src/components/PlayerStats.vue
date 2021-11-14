@@ -1,5 +1,5 @@
 <template>
-  <div class="home_component box-shadow player_stats_component">
+  <div>
     <h2 class="player_stats_title">{{ title }}</h2>
     <PlayerStatsPlayer
       v-for="(player, index) in playerStatsList"
@@ -8,6 +8,9 @@
       :playerStatsList="playerStatsList"
       :index="index"
     />
+    <div class="link-container">
+      <router-link to="/stats" class="page-link">See all stats</router-link>
+    </div>
   </div>
 </template>
 <script>
@@ -20,9 +23,5 @@ export default {
 <style>
 .player_stats_title {
   margin-bottom: 1.5rem;
-}
-
-.player_stats_component {
-  height: fit-content;
 }
 </style>
