@@ -2,23 +2,57 @@
   <nav class="component-spacer">
     <ul>
       <li class="selected">
-        <router-link to="/">overview</router-link>
+        <router-link
+          :to="{
+            name: 'Overview',
+            params: { idType: 'league', id: `${currentLeague.id}` },
+          }"
+          >overview</router-link
+        >
       </li>
       <li>
-        <router-link to="/">table</router-link>
+        <router-link
+          :to="{
+            name: 'Table',
+            params: { idType: 'league', id: `${currentLeague.id}` },
+          }"
+          >table</router-link
+        >
       </li>
       <li>
-        <router-link to="/">matches</router-link>
+        <router-link
+          :to="{
+            name: 'Matches',
+            params: { idType: 'league', id: `${currentLeague.id}` },
+          }"
+          >matches</router-link
+        >
       </li>
       <li>
-        <router-link to="/">stats</router-link>
+        <router-link
+          :to="{
+            name: 'Stats',
+            params: { idType: 'league', id: `${currentLeague.id}` },
+          }"
+          >stats</router-link
+        >
       </li>
     </ul>
     <hr />
   </nav>
 </template>
 <script>
-export default {};
+import { computed } from "vue";
+import { useStore } from "vuex";
+export default {
+  setup() {
+    const store = useStore();
+    const currentLeague = computed(() => store.getters.getCurrentLeague);
+
+    console.log(currentLeague.value.id);
+    return { currentLeague };
+  },
+};
 </script>
 <style scoped>
 nav {
