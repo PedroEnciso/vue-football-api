@@ -14,8 +14,7 @@
     <p class="position">{{ position }}</p>
     <router-link
       :to="{
-        name: 'TeamView',
-        params: { team_id: team.team_id },
+        name: 'Overview',
       }"
       class="team"
     >

@@ -1,23 +1,40 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Overview from "../views/Overview.vue";
+import Home from "../views/Home.vue";
 
 const routes = [
   {
-    // redirect / to /dashboard
     path: "/",
-    redirect: "/overview",
+    name: "Home",
+    component: Home,
   },
   {
     path: "/overview",
     name: "Overview",
-    component: Overview,
+    component: () => import("../views/Overview.vue"),
   },
   {
-    path: `/:team_id`,
-    name: "TeamView",
-    props: true,
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/TeamView.vue"),
+    path: "/overview/:idType/:id",
+    name: "Overview",
+    params: true,
+    component: () => import("../views/Overview.vue"),
+  },
+  {
+    path: `/table/:idType/:id`,
+    name: "Table",
+    params: true,
+    component: () => import("../views/Table.vue"),
+  },
+  {
+    path: `/matches/:idType/:id`,
+    name: "Matches",
+    params: true,
+    component: () => import("../views/Matches.vue"),
+  },
+  {
+    path: `/stats/:idType/:id`,
+    name: "Stats",
+    params: true,
+    component: () => import("../views/Stats.vue"),
   },
 ];
 

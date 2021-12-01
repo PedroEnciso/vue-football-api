@@ -14,12 +14,15 @@
 <script>
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
 // components
 import LatestResults from "../components/LatestResults.vue";
 import LeagueTable from "../components/LeagueTable.vue";
 import UpcomingMatches from "../components/UpcomingMatches.vue";
 import Loader from "../components/Loader.vue";
 import PlayerStatsGrid from "../components/PlayerStatsGrid.vue";
+// functions
+// import loadLeagueData from "../composables/loadLeagueData";
 
 export default {
   components: {
@@ -31,16 +34,32 @@ export default {
   },
   setup() {
     const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
     const currentLeague = computed(() => store.getters.getCurrentLeague);
     const allLeagues = computed(() => store.getters.getAllLeagues);
 
-    const loadCurrentLeague = store.dispatch("loadCurrentLeague");
-
-    return {
-      loadCurrentLeague,
-      currentLeague,
-      allLeagues,
+    const loadLeagueData = async () => {
+      // check if allLeagues is loaded
+      if (!allLeagues.value) {
+        const loadCurrentLeague = await store.dispatch("loadCurrentLeague");
+      }
+      // match currentLeague with the id in the route
+      const paramLeague = allLeagues.value.filter((league) => {
+        return league.id.toString() === route.params.id;
+      });
+      // check if league exists
+      if (!paramLeague[0]) {
+        // if not, send to home page (for now)
+        router.push("/");
+      } else {
+        // if it does exist, set current league
+        store.commit("setCurrentLeague", paramLeague[0]);
+      }
     };
+    loadLeagueData();
+
+    return { allLeagues };
   },
 };
 </script>

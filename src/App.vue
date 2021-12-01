@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <header>
+    <header v-if="currentLeague">
       <Header />
       <Nav />
     </header>
@@ -9,12 +9,23 @@
 </template>
 
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
+
 import Header from "./components/Header.vue";
 import Nav from "./components/Nav.vue";
+
 export default {
   components: {
     Header,
     Nav,
+  },
+  setup() {
+    const store = useStore();
+
+    const currentLeague = computed(() => store.getters.getCurrentLeague);
+
+    return { currentLeague };
   },
 };
 </script>
