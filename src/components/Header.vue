@@ -37,8 +37,6 @@ export default {
     const currentLeague = computed(() => store.getters.getCurrentLeague);
     const allLeagues = computed(() => store.getters.getAllLeagues);
 
-    console.log(currentLeague.value);
-
     const selectNewLeague = () => {
       // do nothing if the placeholder is selected
       if (selectedLeagueID.value === "") return;

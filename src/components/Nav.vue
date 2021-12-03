@@ -1,7 +1,7 @@
 <template>
   <nav class="component-spacer">
     <ul>
-      <li class="selected">
+      <li :class="routeName === 'Overview' ? 'selected' : ''">
         <router-link
           :to="{
             name: 'Overview',
@@ -10,7 +10,7 @@
           >overview</router-link
         >
       </li>
-      <li>
+      <li :class="routeName === 'Table' ? 'selected' : ''">
         <router-link
           :to="{
             name: 'Table',
@@ -19,7 +19,7 @@
           >table</router-link
         >
       </li>
-      <li>
+      <li :class="routeName === 'Matches' ? 'selected' : ''">
         <router-link
           :to="{
             name: 'Matches',
@@ -28,7 +28,7 @@
           >matches</router-link
         >
       </li>
-      <li>
+      <li :class="routeName === 'Stats' ? 'selected' : ''">
         <router-link
           :to="{
             name: 'Stats',
@@ -42,15 +42,24 @@
   </nav>
 </template>
 <script>
-import { computed } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 export default {
   setup() {
     const store = useStore();
     const currentLeague = computed(() => store.getters.getCurrentLeague);
+    const route = useRoute();
 
-    console.log(currentLeague.value.id);
-    return { currentLeague };
+    const routeName = ref(route.name);
+
+    // set the route name as a ref
+    // using this ref to determine which Nav link to highlight
+    watchEffect(() => {
+      routeName.value = route.name;
+    });
+
+    return { currentLeague, routeName };
   },
 };
 </script>
