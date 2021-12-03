@@ -13,7 +13,14 @@
       />
     </div>
     <div class="link-container">
-      <router-link to="/table" class="page-link">See full table</router-link>
+      <router-link
+        :to="{
+          name: 'Table',
+          params: { idType: 'league', id: `${currentLeague.id}` },
+        }"
+        class="page-link"
+        >See full table</router-link
+      >
     </div>
   </div>
 </template>

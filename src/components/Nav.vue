@@ -51,10 +51,11 @@ export default {
     const currentLeague = computed(() => store.getters.getCurrentLeague);
     const route = useRoute();
 
+    // set the route name as a ref
+    // use this ref to determine which Nav link to highlight
     const routeName = ref(route.name);
 
-    // set the route name as a ref
-    // using this ref to determine which Nav link to highlight
+    // change the value of routeName when the route changes
     watchEffect(() => {
       routeName.value = route.name;
     });

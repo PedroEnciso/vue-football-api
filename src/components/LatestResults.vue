@@ -19,7 +19,14 @@
       </div>
     </div>
     <div class="link-container">
-      <router-link to="/matches" class="page-link">See all matches</router-link>
+      <router-link
+        :to="{
+          name: 'Matches',
+          params: { idType: 'league', id: `${currentLeague.id}` },
+        }"
+        class="page-link"
+        >See all matches</router-link
+      >
     </div>
   </div>
 </template>
@@ -96,6 +103,7 @@ export default {
       container,
       latestResults,
       error,
+      currentLeague,
     };
   },
 };

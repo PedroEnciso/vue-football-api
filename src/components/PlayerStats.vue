@@ -9,15 +9,30 @@
       :index="index"
     />
     <div class="link-container">
-      <router-link to="/stats" class="page-link">See all stats</router-link>
+      <router-link
+        :to="{
+          name: 'Stats',
+          params: { idType: 'league', id: `${currentLeague.id}` },
+        }"
+        class="page-link"
+        >See all stats</router-link
+      >
     </div>
   </div>
 </template>
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
 import PlayerStatsPlayer from "./PlayerStatsPlayer";
 export default {
   props: ["playerStatsList", "title", "statType"],
   components: { PlayerStatsPlayer },
+  setup() {
+    const store = useStore();
+    const currentLeague = computed(() => store.getters.getCurrentLeague);
+
+    return { currentLeague };
+  },
 };
 </script>
 <style>
