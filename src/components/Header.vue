@@ -56,6 +56,7 @@ export default {
   padding-top: 3rem;
   padding-bottom: 1rem;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 }
@@ -64,6 +65,7 @@ export default {
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  margin-right: 3rem;
 }
 
 .header__league_info img {
@@ -79,5 +81,14 @@ export default {
   border-radius: 5px;
   width: 175px;
   background-color: var(--light-background-color);
+}
+
+@media only screen and (max-width: 525px) {
+  .header {
+    justify-content: center;
+  }
+  form {
+    margin-top: 2rem;
+  }
 }
 </style>
