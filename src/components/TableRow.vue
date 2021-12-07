@@ -1,5 +1,9 @@
 <template>
-  <div v-if="position === '0'" class="table_row header_row">
+  <div
+    v-if="position === '0'"
+    class="table_row header_row"
+    :class="routeName === 'Table' ? 'table-view-columns' : 'home-view-columns'"
+  >
     <p></p>
     <p class="position bold-text table_header">Team</p>
     <p class="bold-text table_header">Pl</p>
@@ -9,18 +13,26 @@
     <p class="bold-text table_header">+ / -</p>
     <p class="bold-text table_header">GD</p>
     <p class="bold-text table_header">PTS</p>
+    <p v-if="routeName === 'Table'" class="bold-text table_header">FORM</p>
   </div>
-  <div v-else class="table_row">
-    <p class="position">{{ position }}</p>
-    <router-link
-      :to="{
-        name: 'Overview',
-      }"
-      class="team"
+  <div
+    v-else
+    class="table_row"
+    :class="routeName === 'Table' ? 'table-view-columns' : 'home-view-columns'"
+  >
+    <p
+      class="position position-mark"
+      :class="[
+        { promotion: team.description === 'Championship Round' },
+        { relegation: team.description === 'Relegation Round' },
+      ]"
     >
+      {{ position }}
+    </p>
+    <div class="team">
       <img :src="team.team_logo" :alt="team.team_name" />
       <p class="team_name">{{ team.team_name }}</p>
-    </router-link>
+    </div>
     <p>{{ team.overall.games_played }}</p>
     <p>{{ team.overall.won }}</p>
     <p>{{ team.overall.draw }}</p>
@@ -28,25 +40,73 @@
     <p>{{ team.overall.goals_scored }} / {{ team.overall.goals_against }}</p>
     <p>{{ team.overall.goal_diff }}</p>
     <p>{{ team.points }}</p>
+    <div v-if="routeName === 'Table'" class="form-container">
+      <div
+        v-for="(result, index) in recentForm"
+        :key="index"
+        :class="result"
+        class="result"
+      >
+        <p>{{ result }}</p>
+      </div>
+    </div>
   </div>
   <hr v-if="position != 20" />
 </template>
+
 <script>
+import { ref, watchEffect } from "vue";
+import { useRoute } from "vue-router";
 export default {
   props: ["position", "team"],
+  setup(props) {
+    // use route name to determine table columns and include form section
+    const route = useRoute();
+    const routeName = ref(route.name);
+    const recentForm = ref([]);
+
+    const getRecentForm = () => {
+      // placeholder array
+      const formHolder = [];
+      // turn the string form into an array of matches
+      let formArray = props.team.recent_form.split("");
+      // get results from the last 5 matches
+      formArray = formArray.slice(Math.max(formArray.length - 5, 0));
+      // return reversed array to get most recent matches first
+      return formArray;
+    };
+
+    watchEffect(() => {
+      // only get recent form if props.team is initialized and user is on Table page
+      if (props.team) {
+        recentForm.value = getRecentForm();
+      }
+    });
+
+    return { routeName, recentForm };
+  },
 };
 </script>
+
 <style scoped>
 .table_row {
   width: 100%;
+  position: relative;
   padding: 0.75rem 0.75rem;
   display: grid;
-  grid-template-columns: 1fr 4fr repeat(7, 1fr);
   align-items: center;
   justify-items: center;
   background-color: var(--light-background-color);
   border-radius: 5px;
   transition: background-color 0.4s;
+}
+
+.home-view-columns {
+  grid-template-columns: 1fr 4fr repeat(4, 1fr) 2fr repeat(2, 1fr);
+}
+
+.table-view-columns {
+  grid-template-columns: 1fr 2fr repeat(7, 1fr) 2fr;
 }
 
 .table_row:hover {
@@ -67,6 +127,26 @@ export default {
   justify-self: start;
 }
 
+.position-mark::after {
+  width: 3px;
+  height: 10px;
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.promotion::after {
+  background-color: rgb(70, 163, 70);
+}
+
+.relegation::after {
+  background-color: rgb(219, 65, 65);
+}
+
 .team {
   justify-self: start;
   display: flex;
@@ -79,5 +159,31 @@ export default {
 
 .team_name {
   font-weight: 400;
+}
+
+.form-container {
+  width: 65%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.result {
+  width: 20px;
+  line-height: 1.5;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+}
+
+.result p {
+  font-weight: 600;
+}
+
+.W p {
+  color: rgb(70, 163, 70);
+}
+
+.L p {
+  color: rgb(219, 65, 65);
 }
 </style>

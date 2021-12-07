@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2>League Table</h2>
-    <div class="table box-shadow">
+    <h2 v-if="routeName !== 'Table'">League Table</h2>
+    <div :class="routeName === 'Table' ? 'big-margin' : 'small-margin'">
       <TableRow position="0" />
       <h3 v-if="!standings">Loading table data...</h3>
       <TableRow
@@ -12,7 +12,7 @@
         :team="team"
       />
     </div>
-    <div class="link-container">
+    <div v-if="routeName !== 'Table'" class="link-container">
       <router-link
         :to="{
           name: 'Table',
@@ -27,29 +27,42 @@
 <script>
 import TableRow from "./TableRow.vue";
 import getLeagueStandings from "../composables/getLeagueStandings";
-import { watchEffect, computed } from "vue";
+import { watchEffect, computed, ref } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 
 export default {
   components: { TableRow },
   setup() {
+    // get the route name to hide title/link if on Table page
+    const route = useRoute();
+    const routeName = ref(route.name);
+
     const store = useStore();
     const currentLeague = computed(() => store.getters.getCurrentLeague);
 
     const { standings, error, loadLeagueStandings } = getLeagueStandings();
 
+    // update currentLeague whenever the league is changed
+    // I can get rid of all watchEffects if I push a new route when chnaging the league
+    //// in the header instead of only updating currentLeague
     watchEffect(() => {
       loadLeagueStandings(currentLeague.value.current_season_id);
     });
 
-    return { standings, error, currentLeague };
+    console.log(standings);
+
+    return { standings, error, currentLeague, routeName };
   },
 };
 </script>
 <style>
-.table {
-  height: fit-content;
+.small-margin {
   margin-top: 1.5rem;
+}
+
+.big-margin {
+  margin-top: 3rem;
 }
 
 hr {
