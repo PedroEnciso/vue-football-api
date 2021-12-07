@@ -5,6 +5,7 @@
       <Nav />
     </header>
     <router-view />
+    <Footer />
   </div>
 </template>
 
@@ -14,11 +15,13 @@ import { useStore } from "vuex";
 
 import Header from "./components/Header.vue";
 import Nav from "./components/Nav.vue";
+import Footer from "./components/Footer.vue";
 
 export default {
   components: {
     Header,
     Nav,
+    Footer,
   },
   setup() {
     const store = useStore();
