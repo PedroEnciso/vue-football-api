@@ -181,7 +181,8 @@ export default {
 }
 
 .form-container {
-  width: 65%;
+  width: 75%;
+  max-width: 115px;
   display: flex;
   justify-content: space-between;
 }
