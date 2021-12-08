@@ -2,7 +2,7 @@
   <div>
     <h2 v-if="routeName !== 'Table'">League Table</h2>
     <div :class="routeName === 'Table' ? 'big-margin' : 'small-margin'">
-      <TableRow position="0" />
+      <TableRow position="0" :windowWidth="windowWidth" />
       <h3 v-if="!standings">Loading table data...</h3>
       <TableRow
         v-else
@@ -10,6 +10,7 @@
         :key="team.team_id"
         :position="team.position"
         :team="team"
+        :windowWidth="windowWidth"
       />
     </div>
     <div v-if="routeName !== 'Table'" class="link-container">
@@ -50,9 +51,16 @@ export default {
       loadLeagueStandings(currentLeague.value.current_season_id);
     });
 
-    console.log(standings);
+    // ref that keeps track of window size
+    const windowWidth = ref(window.innerWidth);
+    // get the window size as a function
+    const trackWindowSize = () => {
+      windowWidth.value = window.innerWidth;
+    };
+    // call the fuinction everytime the window size changes
+    window.onresize = trackWindowSize;
 
-    return { standings, error, currentLeague, routeName };
+    return { standings, error, currentLeague, routeName, windowWidth };
   },
 };
 </script>

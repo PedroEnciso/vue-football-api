@@ -83,9 +83,10 @@ export default {
   background-color: var(--light-background-color);
 }
 
-@media only screen and (max-width: 525px) {
+@media only screen and (max-width: 700px) {
   .header {
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
   form {
     margin-top: 2rem;

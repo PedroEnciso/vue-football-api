@@ -95,4 +95,14 @@ hr {
   margin-top: -3px;
   background-color: var(--light-background-color);
 }
+
+@media only screen and (max-width: 700px) {
+  nav ul {
+    justify-content: space-between;
+  }
+
+  nav ul li {
+    margin: 0rem;
+  }
+}
 </style>

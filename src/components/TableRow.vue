@@ -2,7 +2,11 @@
   <div
     v-if="position === '0'"
     class="table_row header_row"
-    :class="routeName === 'Table' ? 'table-view-columns' : 'home-view-columns'"
+    :class="
+      routeName === 'Table' && windowWidth > 600
+        ? 'table-view-columns'
+        : 'home-view-columns'
+    "
   >
     <p></p>
     <p class="position bold-text table_header">Team</p>
@@ -13,12 +17,21 @@
     <p class="bold-text table_header">+ / -</p>
     <p class="bold-text table_header">GD</p>
     <p class="bold-text table_header">PTS</p>
-    <p v-if="routeName === 'Table'" class="bold-text table_header">FORM</p>
+    <p
+      v-if="routeName === 'Table' && windowWidth > 600"
+      class="bold-text table_header"
+    >
+      FORM
+    </p>
   </div>
   <div
     v-else
     class="table_row"
-    :class="routeName === 'Table' ? 'table-view-columns' : 'home-view-columns'"
+    :class="
+      routeName === 'Table' && windowWidth > 600
+        ? 'table-view-columns'
+        : 'home-view-columns'
+    "
   >
     <p
       class="position position-mark"
@@ -40,7 +53,10 @@
     <p>{{ team.overall.goals_scored }} / {{ team.overall.goals_against }}</p>
     <p>{{ team.overall.goal_diff }}</p>
     <p>{{ team.points }}</p>
-    <div v-if="routeName === 'Table'" class="form-container">
+    <div
+      v-if="routeName === 'Table' && windowWidth > 600"
+      class="form-container"
+    >
       <div
         v-for="(result, index) in recentForm"
         :key="index"
@@ -55,10 +71,10 @@
 </template>
 
 <script>
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect, computed } from "vue";
 import { useRoute } from "vue-router";
 export default {
-  props: ["position", "team"],
+  props: ["position", "team", "windowWidth"],
   setup(props) {
     // use route name to determine table columns and include form section
     const route = useRoute();
@@ -102,11 +118,17 @@ export default {
 }
 
 .home-view-columns {
-  grid-template-columns: 1fr 4fr repeat(4, 1fr) 2fr repeat(2, 1fr);
+  grid-template-columns: 1fr 8fr repeat(4, 2fr) 4fr repeat(2, 2fr);
 }
 
 .table-view-columns {
-  grid-template-columns: 1fr 2fr repeat(7, 1fr) 2fr;
+  grid-template-columns: 1fr 8fr repeat(4, 2fr) 4fr repeat(2, 2fr) 8fr;
+}
+
+@media only screen and (max-width: 650px) {
+  .table-view-columns {
+    grid-template-columns: 1fr 8fr repeat(4, 2fr) 4fr repeat(2, 2fr) 8fr;
+  }
 }
 
 .table_row:hover {
@@ -150,15 +172,12 @@ export default {
 .team {
   justify-self: start;
   display: flex;
+  align-items: center;
 }
 
 .team img {
   height: 1.2rem;
   margin-right: 0.6rem;
-}
-
-.team_name {
-  font-weight: 400;
 }
 
 .form-container {
@@ -185,5 +204,9 @@ export default {
 
 .L p {
   color: rgb(219, 65, 65);
+}
+
+.D p {
+  color: var(--light-text-color);
 }
 </style>
