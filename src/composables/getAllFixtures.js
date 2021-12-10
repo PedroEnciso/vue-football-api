@@ -4,12 +4,12 @@ const getAllFixtures = () => {
   // dynamic varibales
   const error = ref(null);
   const allFixtures = ref(null);
+  const allTeams = ref([]);
 
   // API URL using the date range
   // static variables
   const API_TOKEN =
     "bXSpCz0qhyhgfTs692uyNUmWzHPU4aXW3YzwERIvu30bOOp0DB7AzKtJ0lT3";
-  const url = `https://soccer.sportmonks.com/api/v2.0/seasons/18334?api_token=${API_TOKEN}&include=results`;
 
   // constructor for a team
   const teamFactory = (teamData) => {
@@ -23,11 +23,11 @@ const getAllFixtures = () => {
     const getId = () => {
       return teamData.id;
     };
-
     return { getName, getBadgeUrl, getId, name };
   };
 
-  const loadAllFixtures = async () => {
+  const loadAllFixtures = async (seasonID) => {
+    const url = `https://soccer.sportmonks.com/api/v2.0/rounds/season/${seasonID}?api_token=${API_TOKEN}&include=fixtures,results`;
     try {
       let data = await fetch(url);
       // throw error if fetch is unsuccessful
@@ -35,13 +35,12 @@ const getAllFixtures = () => {
         throw Error("Data not available");
       }
       let parsedData = await data.json();
+      // allFixtures.value = parsedData.data.results.data;
+      // allFixtures.value = allFixtures.value.reverse();
       allFixtures.value = parsedData.data;
-      console.log("Starting to create teams list");
-      console.log(allFixtures.value.id);
-      createTeamsList(allFixtures.value.id);
+      await createTeamsList(seasonID);
     } catch (err) {
       error.value = err.message;
-      console.log(error.value);
     }
   };
 
@@ -54,24 +53,20 @@ const getAllFixtures = () => {
         throw Error("Data not available");
       }
       let parsedData = await data.json();
-      console.log("calling iterateTeamData");
       iterateTeamData(parsedData.data);
     } catch (err) {
       error.value = err.message;
-      console.log(error.value);
     }
   };
 
   const iterateTeamData = (teamData) => {
-    const allTeams = [];
     teamData.forEach((team) => {
       const newTeam = teamFactory(team);
-      allTeams.push(newTeam);
+      allTeams.value.push(newTeam);
     });
-    console.log(allTeams[0].getName());
   };
 
-  return { allFixtures, error, loadAllFixtures };
+  return { allFixtures, error, loadAllFixtures, allTeams };
 };
 
 export default getAllFixtures;

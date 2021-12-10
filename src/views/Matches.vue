@@ -1,17 +1,48 @@
 <template>
   <div>
-    <h2>This is the matches page</h2>
+    <div v-if="currentLeague">
+      <UpcomingMatches />
+    </div>
   </div>
 </template>
 
 <script>
 import { computed } from "vue";
-// mport {useStore} from 'vuex'
-import getAllFixtures from "../composables/getAllFixtures";
+import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
+import UpcomingMatches from "../components/UpcomingMatches.vue";
 export default {
+  components: {
+    UpcomingMatches,
+  },
   setup() {
-    const { allFixtures, error, loadAllFixtures } = getAllFixtures();
-    loadAllFixtures();
+    const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
+    const currentLeague = computed(() => store.getters.getCurrentLeague);
+    const allLeagues = computed(() => store.getters.getAllLeagues);
+
+    const loadLeagueData = async () => {
+      // check if allLeagues is loaded
+      if (!allLeagues.value) {
+        const loadCurrentLeague = await store.dispatch("loadCurrentLeague");
+      }
+      // match currentLeague with the id in the route
+      const paramLeague = allLeagues.value.filter((league) => {
+        return league.id.toString() === route.params.id;
+      });
+      // check if league exists
+      if (!paramLeague[0]) {
+        // if not, send to home page (for now)
+        router.push("/");
+      } else {
+        // if it does exist, set current league
+        store.commit("setCurrentLeague", paramLeague[0]);
+      }
+    };
+    loadLeagueData();
+
+    return { currentLeague };
   },
 };
 </script>

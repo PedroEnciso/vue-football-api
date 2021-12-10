@@ -1,23 +1,24 @@
 <template>
-  <div class="home_component box-shadow upcoming_matches">
-    <h2 class="upcoming_matches_h2">Upcoming Matches</h2>
-    <div class="upcoming_matches_matches">
-      <h3 v-if="!upcomingMatches">Loading upcoming fixtures...</h3>
+  <div class="matches_container">
+    <div v-if="currentRoundFixtures" class="upcoming_matches_matches">
+      <div class="fixture_nav">
+        <button class="fixture_nav_button">&#60; Previous</button>
+        <button class="fixture_nav_button">Next ></button>
+      </div>
       <UpcomingMatch
-        v-else
-        v-for="match in upcomingMatches"
+        v-for="match in currentRoundFixtures"
         :key="match.id"
         :match="match"
-        :upcomingMatches="upcomingMatches"
+        :upcomingMatches="currentRoundFixtures"
       />
     </div>
   </div>
 </template>
 <script>
-import { computed, watchEffect } from "vue";
+import { computed, watchEffect, ref } from "vue";
 import { useStore } from "vuex";
 import UpcomingMatch from "./UpcomingMatch.vue";
-import getUpcomingMatches from "../composables/getUpcomingMatches";
+import getAllFixtures from "../composables/getAllFixtures";
 
 export default {
   components: {
@@ -26,38 +27,62 @@ export default {
   setup() {
     const store = useStore();
     const currentLeague = computed(() => store.getters.getCurrentLeague);
+    const currentRoundFixtures = ref(null);
+    const currentRoundIndex = ref(null);
 
-    const {
-      upcomingMatches,
-      error,
-      loadUpcomingMatches,
-    } = getUpcomingMatches();
+    const { allFixtures, error, loadAllFixtures, allTeams } = getAllFixtures();
 
-    watchEffect(() => {
-      loadUpcomingMatches(
-        currentLeague.value.id,
-        currentLeague.value.current_round_id
-      );
-    });
+    const getCurrentRoundData = async () => {
+      // load the list of all fixtures and results
+      await loadAllFixtures(currentLeague.value.current_season_id);
+      console.log(allFixtures.value);
+      // loop through all rounds, find the fixtures for the current league
+      const indexOfCurrentResults = allFixtures.value.forEach((round) => {
+        if (round.id === currentLeague.value.current_round_id) {
+          currentRoundIndex.value = round.name - 1;
+          hasResults(round);
+        }
+      });
+    };
 
-    return { upcomingMatches, error };
+    // function to check if the round has been played yet
+    // this function sets the proper data set to currentRoundFixtures
+    const hasResults = (round) => {
+      // check if there is any data in the results array
+      if (round.results.data[0]) {
+        // if yes, set currentRoundFixtures to the results array
+        currentRoundFixtures.value = round.results.data;
+      } else {
+        // if there is no data, point to the fixtures array
+        currentRoundFixtures.value = round.fixtures.data;
+      }
+    };
+
+    getCurrentRoundData();
+
+    return { allFixtures, allTeams, error, currentRoundFixtures };
   },
 };
 </script>
 <style>
-.upcoming_matches {
-  display: flex;
-  flex-direction: column;
+.matches_container {
+  margin-top: 3rem;
 }
 
-.upcoming_matches_h2 {
-  flex: 0 1 auto;
+.fixture_nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.fixture_nav button {
+  text-transform: uppercase;
 }
 
 .upcoming_matches_matches {
-  flex: 1 1 auto;
-  display: grid;
-  grid-template-rows: repeat(6, 1fr);
   padding-top: 7px;
 }
 </style>

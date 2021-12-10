@@ -4,25 +4,19 @@
       <p class="upcoming_matches_match_date">{{ formattedDate }}</p>
       <div class="upcoming_matches_match_teams">
         <div class="upcoming_matches_team home_team">
-          <p>{{ match.localTeam.data.name }}</p>
-          <img
-            :src="match.localTeam.data.logo_path"
-            :alt="match.localTeam.data.name"
-          />
+          <p>{{ match.localteam_id }}</p>
+          <img :src="match.localteam_id" :alt="match.localteam_id" />
         </div>
         <div class="upcoming_matches_time">
           <p>{{ formattedTime }}</p>
         </div>
         <div class="upcoming_matches_team">
-          <img
-            :src="match.visitorTeam.data.logo_path"
-            :alt="match.visitorTeam.data.name"
-          />
-          <p>{{ match.visitorTeam.data.name }}</p>
+          <img :src="match.visitorteam_id" :alt="match.visitorteam_id" />
+          <p>{{ match.visitorteam_id }}</p>
         </div>
       </div>
     </div>
-    <hr v-if="upcomingMatches.indexOf(match) < 5" class="upcomingMatch_hr" />
+    <hr class="upcomingMatch_hr" />
   </div>
 </template>
 <script>
