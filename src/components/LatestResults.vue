@@ -124,12 +124,9 @@ export default {
 
 .slider_button {
   font-size: 1.3rem;
+  line-height: 1.3rem;
   font-weight: 700;
-  border-radius: 90%;
-}
-
-.slider_button:hover {
-  background-color: transparent;
+  padding: 0.2rem 0.5rem;
 }
 
 .switch_left {
