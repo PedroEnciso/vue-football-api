@@ -4,32 +4,18 @@
       <img :src="currentLeague.logo_path" :alt="currentLeague.name" />
       <h1>{{ currentLeague.name }}</h1>
     </div>
-    <form>
-      <select
-        v-model="selectedLeagueID"
-        autocomplete="off"
-        placeholder="Select a league"
-      >
-        <option value="" disabled selected>Select a league</option>
-        <option
-          v-for="league in allLeagues"
-          :key="league.id"
-          :value="league.id"
-        >
-          {{ league.name }}
-        </option>
-      </select>
-      <button @click="selectNewLeague" class="bold-text" type="button">
-        Go
-      </button>
-    </form>
+    <LeagueSelector />
   </div>
 </template>
 
 <script>
 import { ref, computed } from "vue";
 import { mapGetters, useStore } from "vuex";
+import LeagueSelector from "./LeagueSelector.vue";
 export default {
+  components: {
+    LeagueSelector,
+  },
   setup() {
     const selectedLeagueID = ref("");
     const store = useStore();
