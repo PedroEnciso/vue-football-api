@@ -1,100 +1,116 @@
 <template>
-  <div>
-    <div class="upcoming_matches_match">
-      <p class="upcoming_matches_match_date">{{ formattedDate }}</p>
-      <div class="upcoming_matches_match_teams">
-        <div class="upcoming_matches_team home_team">
-          <p>{{ match.localteam_id }}</p>
-          <img :src="match.localteam_id" :alt="match.localteam_id" />
-        </div>
-        <div class="upcoming_matches_time">
-          <p>{{ formattedTime }}</p>
-        </div>
-        <div class="upcoming_matches_team">
-          <img :src="match.visitorteam_id" :alt="match.visitorteam_id" />
-          <p>{{ match.visitorteam_id }}</p>
-        </div>
-      </div>
+  <div class="match_container">
+    <div class="match_row">
+      <img :src="homeTeam.getBadgeUrl()" :alt="homeTeam.getId()" />
+      <p>{{ homeTeam.getName() }}</p>
+      <p class="score" v-if="match.scores.ft_score">
+        {{ match.scores.localteam_score }}
+      </p>
     </div>
-    <hr class="upcomingMatch_hr" />
+
+    <div class="match_row">
+      <img :src="awayTeam.getBadgeUrl()" :alt="awayTeam.getId()" />
+      <p>{{ awayTeam.getName() }}</p>
+      <p class="score" v-if="match.scores.ft_score">
+        {{ match.scores.visitorteam_score }}
+      </p>
+    </div>
+    <div class="match_bottom_row">
+      <p>{{ formattedDate }}</p>
+      <p>{{ formattedTime }}</p>
+    </div>
   </div>
 </template>
 <script>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { DateTime } from "luxon";
 
 export default {
-  props: ["match", "upcomingMatches"],
+  props: ["match", "upcomingMatches", "allTeams"],
   setup(props) {
+    const homeTeam = ref(null);
+    const awayTeam = ref(null);
+
+    // check if the match has been played
+    const hasMatchBeenPlayed = computed(() => {
+      if (props.match.scores.ft_score) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+
     // computed function to change the format of the date given from the API
     const formattedDate = computed(() => {
       return DateTime.fromISO(props.match.time.starting_at.date).toFormat(
-        "EEE, MMM dd"
+        "MMM dd"
       );
     });
-    // format the time returned by the API
+
+    // format the time of the match
     const formattedTime = computed(() => {
+      if (hasMatchBeenPlayed.value) {
+        return "FT";
+      } else {
+        return DateTime.fromISO(props.match.time.starting_at.time).toFormat(
+          "t"
+        );
+      }
       return DateTime.fromISO(props.match.time.starting_at.time).toFormat("t");
     });
 
-    return { formattedDate, formattedTime };
+    // returns the Team object with the home team information
+    // must pass in the home team's id
+    const getTeamData = (teamId, ref) => {
+      props.allTeams.forEach((team) => {
+        if (team.getId() === teamId) {
+          ref.value = team;
+        }
+      });
+    };
+
+    // assign the data for home and away teams to their refs
+    getTeamData(props.match.localteam_id, homeTeam);
+    getTeamData(props.match.visitorteam_id, awayTeam);
+
+    return { formattedDate, formattedTime, homeTeam, awayTeam };
   },
 };
 </script>
-<style>
-.upcoming_matches_match {
-  display: flex;
-  flex-direction: column;
+<style scoped>
+.match_container {
+  width: 100%;
+  max-width: 300px;
+  padding: 1.2rem 1.5rem;
+  background-color: var(--light-background-color);
 }
 
-.upcoming_matches_match_date {
-  padding-top: 8px;
-  font-size: 0.7rem;
-  font-weight: 400;
-  color: #a5a5a5;
-}
-
-.upcoming_matches_match_teams {
-  padding-top: 3px;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.upcoming_matches_match_teams .home_team {
-  justify-self: right;
-}
-
-.upcoming_matches_team {
+.match_row {
   display: flex;
   align-items: center;
+  margin-bottom: 0.75rem;
+  position: relative;
 }
 
-.upcoming_matches_team img {
-  height: 30px;
-  width: 30px;
-  margin: 0px 5px;
+.match_row p {
+  font-size: 0.95rem;
 }
 
-.upcoming_matches_time {
-  padding-left: 8px;
-  padding-right: 8px;
-  max-width: 35px;
+.match_row img {
+  width: 35px;
+  margin-right: 0.5rem;
+}
+
+.score {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  font-weight: 500;
+}
+
+.match_bottom_row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.upcoming_matches_time p {
-  font-size: 0.8rem;
-  color: #a5a5a5;
-  line-height: 0.9rem;
-  font-weight: 400;
-}
-
-.upcomingMatch_hr {
-  margin-top: 0.75rem;
+  justify-content: space-between;
 }
 </style>
