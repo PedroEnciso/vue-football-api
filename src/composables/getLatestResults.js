@@ -9,7 +9,7 @@ const getLatestResults = () => {
   // use luxon to get 14 day time frame from the past
   // api uses date format YYYY-MM-DD
   const endDate = DateTime.now().toFormat("yyyy-MM-dd");
-  const startDate = DateTime.fromISO(endDate).minus({ days: 30 }).toISODate();
+  const startDate = DateTime.fromISO(endDate).minus({ days: 90 }).toISODate();
 
   // API URL using the date range
   // static variables
