@@ -70,6 +70,12 @@ export default {
 }
 
 .stats_columns {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+}
+
+@media only screen and (min-width: 700px) {
+  .stats_columns {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 </style>
