@@ -83,4 +83,10 @@ export default {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+@media only screen and (min-width: 900px) {
+  .stats_columns {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
 </style>
