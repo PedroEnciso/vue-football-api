@@ -8,7 +8,7 @@
       :playerStatsList="playerStatsList"
       :index="index"
     />
-    <div class="link-container">
+    <div v-if="routeName === 'Overview'" class="link-container">
       <router-link
         :to="{
           name: 'Stats',
@@ -25,7 +25,7 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import PlayerStatsPlayer from "./PlayerStatsPlayer";
 export default {
-  props: ["playerStatsList", "title", "statType"],
+  props: ["playerStatsList", "title", "statType", "routeName"],
   components: { PlayerStatsPlayer },
   setup() {
     const store = useStore();

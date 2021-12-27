@@ -1,16 +1,35 @@
 <template>
-  <div class="player_stats_grid">
+  <div
+    class="player_stats_grid"
+    :class="routeName === 'Overview' ? 'overview_columns' : 'stats_columns'"
+  >
     <PlayerStats
       v-if="playerStats"
       title="Top Scorers"
       statType="goals"
       :playerStatsList="topScorers"
+      :routeName="routeName"
+    />
+
+    <PlayerStats
+      v-if="routeName === 'Stats' && playerStats"
+      title="Most Assists"
+      statType="assists"
+      :playerStatsList="topAssists"
+    />
+
+    <PlayerStats
+      v-if="routeName === 'Stats' && playerStats"
+      title="Most Cards"
+      statType="cards"
+      :playerStatsList="mostCards"
     />
   </div>
 </template>
 <script>
-import { computed, watchEffect } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 import PlayerStats from "./PlayerStats.vue";
 import getPlayerStats from "../composables/getPlayerStats";
 export default {
@@ -19,7 +38,10 @@ export default {
   },
   setup() {
     const store = useStore();
+    const route = useRoute();
     const currentLeague = computed(() => store.getters.getCurrentLeague);
+
+    const routeName = ref(route.name);
 
     const {
       playerStats,
@@ -29,16 +51,25 @@ export default {
       topAssists,
       mostCards,
     } = getPlayerStats();
-    watchEffect(() => {
-      loadPlayerStats(currentLeague.value.current_season_id);
-    });
+    loadPlayerStats(currentLeague.value.current_season_id);
 
-    return { playerStats, error, topScorers, topAssists, mostCards };
+    return { routeName, playerStats, error, topScorers, topAssists, mostCards };
   },
 };
 </script>
 <style>
 .player_stats_grid {
   width: 100%;
+  display: grid;
+  grid-gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.overview_columns {
+  grid-template-columns: 1fr;
+}
+
+.stats_columns {
+  grid-template-columns: 1fr 1fr;
 }
 </style>
