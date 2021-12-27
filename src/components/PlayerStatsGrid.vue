@@ -1,7 +1,9 @@
 <template>
   <div
     class="player_stats_grid"
-    :class="routeName === 'Overview' ? 'overview_columns' : 'stats_columns'"
+    :class="
+      routeName === 'Overview' ? 'overview_columns' : 'stats_columns margin'
+    "
   >
     <PlayerStats
       v-if="playerStats"
@@ -62,6 +64,9 @@ export default {
   width: 100%;
   display: grid;
   grid-gap: 1.5rem;
+}
+
+.margin {
   margin-top: 3rem;
 }
 

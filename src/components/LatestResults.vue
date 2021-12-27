@@ -12,7 +12,7 @@
       </div>
     </div>
     <h3 v-if="error">Sorry there was an error: {{ error }}</h3>
-    <h3 v-if="!latestResults">Loading latest round data...</h3>
+    <p v-if="!latestResults">No recent fixtures.</p>
     <div v-else ref="container" class="carousel_container">
       <div ref="slider" class="carousel">
         <Match v-for="match in latestResults" :key="match.id" :match="match" />
@@ -42,7 +42,7 @@ export default {
     ///// SLIDER FUNCTIONALITY /////
     const slider = ref(null);
     const container = ref(null);
-    const INCREMENT = 380;
+    const INCREMENT = 250;
     let slideAmount = 0;
 
     // right button functionality

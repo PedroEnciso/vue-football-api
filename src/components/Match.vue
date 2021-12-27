@@ -8,8 +8,8 @@
       />
       <p class="match_team_name">{{ match.localTeam.data.name }}</p>
     </div>
-    <div class="match_score ">
-      <p>{{ match.scores.ft_score }}</p>
+    <div class="match_score">
+      <p class="score">{{ match.scores.ft_score }}</p>
     </div>
     <div class="match_team">
       <img
@@ -19,11 +19,25 @@
       />
       <p class="match_team_name">{{ match.visitorTeam.data.name }}</p>
     </div>
+    <p class="match_date">{{ formattedDate }}</p>
   </div>
 </template>
 <script>
+import { computed } from "vue";
+import { DateTime } from "luxon";
+
 export default {
   props: ["match"],
+  setup(props) {
+    // computed function to change the format of the date given from the API
+    const formattedDate = computed(() => {
+      return DateTime.fromISO(props.match.time.starting_at.date).toFormat(
+        "MM/dd"
+      );
+    });
+
+    return { formattedDate };
+  },
 };
 </script>
 <style>
@@ -60,15 +74,20 @@ export default {
   text-align: center;
 }
 
-.match_score p {
+.match_score {
   white-space: nowrap;
   text-align: center;
+}
+
+.score {
   font-weight: 700;
 }
 
 .match_date {
   position: absolute;
-  top: 80%;
-  left: 50;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
 }
 </style>

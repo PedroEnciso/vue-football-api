@@ -56,7 +56,6 @@ export default {
           "t"
         );
       }
-      return DateTime.fromISO(props.match.time.starting_at.time).toFormat("t");
     });
 
     // returns the Team object with the home team information
